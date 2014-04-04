@@ -1,0 +1,22 @@
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+	<title>sweeper</title>
+	<script type="text/javascript" src="sweeper.js"></script>
+</head>
+
+<body onload="init()">
+	<form name="gamesettings">
+		<input type="text" name="width" value="10">board width</input> <br/>
+		<input type="text" name="height" value="10">board heigth</input> <br/>
+		<input type="text" name="monsters" value="10">monster count</input> <br/>
+		<input type="text" name="health" value="10">initial health</input> <br/>
+		<input type="text" name="level" value="1">initial level</input> <br/>
+	</form>
+	<button onclick="init()">reset</button>
+	<div id="boardcontainer"></div>
+</body>
+
+</html>
