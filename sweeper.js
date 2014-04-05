@@ -1,5 +1,5 @@
-var x;
-var y;
+var boardwidth;
+var boardheight;
 var board;
 var player;
 
@@ -16,11 +16,11 @@ Coord.prototype.toString = function() {
 }
 
 function init() {
-	x = document.gamesettings.width.value;
-	y = document.gamesettings.height.value;
-	var monstercount = document.gamesettings.monsters.value;
+	boardwidth = parseInt(document.gamesettings.width.value);
+	boardheight = parseInt(document.gamesettings.height.value);
+	var monstercount = parseInt(document.gamesettings.monsters.value);
 	player = {};
-	player.hp = document.gamesettings.health;
+	player.hp = parseInt(document.gamesettings.health);
 	player.level = 1;
 	player.xp = 0;
 	
@@ -31,13 +31,13 @@ function init() {
 	board = document.createElement("table");
 	holder.appendChild(board);
 	
-	grid = new Array(y);
+	grid = new Array(boardheight);
 	cells = new Array();
 	
-	for(var i = 0; i < y; i++) {
-		grid[i]= new Array(x);
+	for(var i = 0; i < boardheight; i++) {
+		grid[i]= new Array(boardwidth);
 		var row = board.insertRow();
-		for(var j = 0; j < x; j++) {
+		for(var j = 0; j < boardwidth; j++) {
 			var column = row.insertCell();
 			// maybe use a Coord here, maybe not. Inheritance???
 			var cell = {"monster" : 0, "open" : false, "cellement" : column, "x" : j, "y" : i};
@@ -65,17 +65,16 @@ function neighbors(i, j) {
 	
 	if(j > 0) vertical.push(j-1);
 	vertical.push(j);
-	if(j < y-1) vertical.push(j+1);
+	if(j < (boardheight-1)) vertical.push(j+1);
 	
 	if(i > 0) horizontal.push(i-1);
 	horizontal.push(i);
-	if(i < x-1) horizontal.push(i+1);
+	if(i < (boardwidth-1)) horizontal.push(i+1);
 	
-	for(x of horizontal) {
-		for(y of vertical) {
+	for(var x of horizontal) {
+		for(var y of vertical) {
 			if(!(x == i && y == j)) {
-				var coord = new Coord(i*1+x*1, j*1+y*1); // I knew there was going to be some language quirk going to sneak up and bite me in the butt before too long
-				console.log(coord.x+", "+coord.y);
+				var coord = new Coord(x, y);
 				out.push(coord);
 			}
 		}
@@ -89,6 +88,14 @@ function danger(cell) {
 		peril += grid[coord.y][coord.x].monster;
 	});
 	return peril;
+}
+
+function cover() {
+	for(cell of cells) {
+		cell.open = false;
+		render(cell);
+		console.log("reset "+cell.x+", "+cell.y);
+	}
 }
 
 function render(cell) {

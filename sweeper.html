@@ -10,12 +10,14 @@
 <body onload="init()">
 	<form name="gamesettings">
 		<input type="text" name="width" value="10">board width</input> <br/>
-		<input type="text" name="height" value="10">board heigth</input> <br/>
+		<input type="text" name="height" value="10">board height</input> <br/>
 		<input type="text" name="monsters" value="10">monster count</input> <br/>
 		<input type="text" name="health" value="10">initial health</input> <br/>
 		<input type="text" name="level" value="1">initial level</input> <br/>
 	</form>
+	<button onclick="cover()">cover</button>
 	<button onclick="init()">reset</button>
+	<button onclick="document.location.reload()">reload</button>
 	<div id="boardcontainer"></div>
 </body>
 
