@@ -1,0 +1,12 @@
+#boardcontainer td {
+	text-align: center;
+	height: 0.3in;
+	width: 0.3in;
+}
+
+#boardcontainer button {
+	height: 100%;
+	width: 100%;
+	background: orange;
+	border: thin solid black;
+}

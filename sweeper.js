@@ -19,9 +19,10 @@ function init() {
 	boardwidth = parseInt(document.gamesettings.width.value);
 	boardheight = parseInt(document.gamesettings.height.value);
 	var monstercount = parseInt(document.gamesettings.monsters.value);
+	var monsterlevel = parseInt(document.gamesettings.monsterlevel.value);
 	player = {};
 	player.hp = parseInt(document.gamesettings.health);
-	player.level = 1;
+	player.level = parseInt(document.gamesettings.playerlevel);
 	player.xp = 0;
 	
 	var holder = document.getElementById("boardcontainer")
@@ -105,7 +106,8 @@ function render(cell) {
 	if(cell.open) {
 		var toNumber = document.createElement("span");
 		if(cell.monster == 0) {
-			toNumber.innerHTML = danger(cell);
+			var theDanger = danger(cell);
+			toNumber.innerHTML = theDanger > 0 ? theDanger : "";
 		} else {
 			toNumber.innerHTML = "BOOM";
 		}
