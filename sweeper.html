@@ -18,7 +18,7 @@
 
 <body onload="init()">
 	<div>
-		<input id="showsettings" type="checkbox" checked="false" onchange="toggleSettings()">show settings</input>
+		<input id="showsettings" type="checkbox" onchange="toggleSettings()">show settings</input>
 		<div id="gamesettings" style="display : none;">
 			<form name="gamesettings">
 				<input type="text" name="width" value="10">board width</input> <br/>
@@ -32,6 +32,7 @@
 	</div>
 	<div>
 		<button onclick="cover()">cover</button>
+		<button onclick="uncover()">uncover</button>
 		<button onclick="init()">reset</button>
 		<button onclick="document.location.reload()">reload</button>
 		<div id="boardcontainer"></div>

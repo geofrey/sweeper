@@ -32,17 +32,22 @@ function init() {
 	board = document.createElement("table");
 	holder.appendChild(board);
 	
-	grid = new Array(boardheight);
+	grid = new Array(boardwidth);
+	for(var row = 0; row < boardwidth; row++) {
+		grid[row] = new Array(boardheight);
+	}
+	console.debug(grid.length);
+	console.debug(grid[0].length);
+	
 	cells = new Array();
 	
-	for(var i = 0; i < boardheight; i++) {
-		grid[i]= new Array(boardwidth);
-		var row = board.insertRow();
-		for(var j = 0; j < boardwidth; j++) {
-			var column = row.insertCell();
+	for(var row = 0; row < boardheight; row++) { // row-major for page elements
+		var tr = board.insertRow();
+		for(var col = 0; col < boardwidth; col++) {
+			var td = tr.insertCell();
 			// maybe use a Coord here, maybe not. Inheritance???
-			var cell = {"monster" : 0, "open" : false, "cellement" : column, "x" : j, "y" : i};
-			grid[i][j] = cell;
+			var cell = {"monster" : 0, "open" : false, "cellement" : td, "x" : col, "y" : row};
+			grid[col][row] = cell; // column-major for game logic
 			cells.push(cell);
 		}
 	}
@@ -59,43 +64,53 @@ function init() {
 	cells.forEach(render);
 }
 
-function neighbors(i, j) {
+function neighbors(cell) {
+	var i = cell.x;
+	var j = cell.y;
 	var out = new Array();
 	var horizontal = new Array();
 	var vertical = new Array();
-	
-	if(j > 0) vertical.push(j-1);
-	vertical.push(j);
-	if(j < (boardheight-1)) vertical.push(j+1);
 	
 	if(i > 0) horizontal.push(i-1);
 	horizontal.push(i);
 	if(i < (boardwidth-1)) horizontal.push(i+1);
 	
+	if(j > 0) vertical.push(j-1);
+	vertical.push(j);
+	if(j < (boardheight-1)) vertical.push(j+1);
+	
 	for(var x of horizontal) {
 		for(var y of vertical) {
 			if(!(x == i && y == j)) {
 				var coord = new Coord(x, y);
-				out.push(coord);
+				out.push(grid[coord.x][coord.y]);
 			}
 		}
 	}
 	return out;
 }
 
+function add(l, r) {
+	return l + r;
+}
+
 function danger(cell) {
-	var peril = 0;
-	neighbors(cell.x, cell.y).forEach(function(coord) {
-		peril += grid[coord.y][coord.x].monster;
-	});
-	return peril;
+	return neighbors(cell)
+		.map(function(c) { return c.monster; })
+		.reduce(function(l, r) { return l + r; });
 }
 
 function cover() {
 	for(cell of cells) {
 		cell.open = false;
 		render(cell);
-		console.log("reset "+cell.x+", "+cell.y);
+	}
+}
+
+function uncover() {
+	for(cell of cells) {
+		cell.open = true;
+		render(cell);
 	}
 }
 
@@ -118,7 +133,7 @@ function render(cell) {
 			cell.open = true;
 			render(cell);
 		}
-		toButton.innerHTML = "?";
+		toButton.innerHTML = "";
 		cell.cellement.appendChild(toButton);
 	}
 }
