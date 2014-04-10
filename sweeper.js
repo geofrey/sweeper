@@ -6,6 +6,11 @@ var player;
 var grid;
 var cells;
 
+var monsterstyle = [
+	null,
+	"m1"
+];
+
 // this part looks like a good thing to move into a different file
 function Coord(x, y) {
 	this.x = x;
@@ -44,9 +49,10 @@ function init() {
 	for(var row = 0; row < boardheight; row++) { // row-major for page elements
 		var tr = board.insertRow();
 		for(var col = 0; col < boardwidth; col++) {
-			var td = tr.insertCell();
+			var box = tr.insertCell();
+			box.class = "cell";
 			// maybe use a Coord here, maybe not. Inheritance???
-			var cell = {"monster" : 0, "open" : false, "cellement" : td, "x" : col, "y" : row};
+			var cell = {"monster" : 0, "open" : false, "cellement" : box, "x" : col, "y" : row};
 			grid[col][row] = cell; // column-major for game logic
 			cells.push(cell);
 		}
@@ -124,7 +130,8 @@ function render(cell) {
 			var theDanger = danger(cell);
 			toNumber.innerHTML = theDanger > 0 ? theDanger : "";
 		} else {
-			toNumber.innerHTML = "BOOM";
+			toNumber.innerHTML = "&nbsp;";
+			toNumber.classList.add(monsterstyle[cell.monster]);
 		}
 		cell.cellement.appendChild(toNumber);
 	} else {
