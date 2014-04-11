@@ -125,15 +125,14 @@ function render(cell) {
 		cell.cellement.removeChild(cell.cellement.firstChild);
 	}
 	if(cell.open) {
-		var toNumber = document.createElement("span");
 		if(cell.monster == 0) {
+			var toNumber = document.createElement("span");
 			var theDanger = danger(cell);
 			toNumber.innerHTML = theDanger > 0 ? theDanger : "";
+			cell.cellement.appendChild(toNumber);
 		} else {
-			toNumber.innerHTML = "&nbsp;";
-			toNumber.classList.add(monsterstyle[cell.monster]);
+			cell.cellement.classList.add(monsterstyle[cell.monster]);
 		}
-		cell.cellement.appendChild(toNumber);
 	} else {
 		var toButton = document.createElement("button");
 		toButton.onclick = function(event) {

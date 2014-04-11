@@ -2,7 +2,6 @@
 	text-align: center;
 	height: 32px;
 	width: 32px;
-	margin: 1px;
 }
 
 #boardcontainer td * {
@@ -14,6 +13,8 @@
 #boardcontainer button {
 	height: 100%;
 	width: 100%;
+	margin: 0;
+	offset: 0;
 }
 
 #boardcontainer .m1 {
