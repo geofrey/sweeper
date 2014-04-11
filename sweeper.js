@@ -63,6 +63,12 @@ function goBoom(cell) {
 	cell.cellement.classList.add("boom");
 	document.getElementById("status").appendChild(loseBanner);
 	render(cell);
+	for(remaining of cells) {
+		if(remaining.monster > 0) {
+			remaining.open = true;
+			render(remaining);
+		}
+	}
 }
 
 function init() {
