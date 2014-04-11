@@ -11,6 +11,12 @@ var monsterstyle = [
 	"m1"
 ];
 
+var loseBanner = document.createElement("p");
+loseBanner.innerHTML = "Game Over";
+
+var winBanner = document.createElement("p");
+winBanner.innerHTML = "Success!";
+
 // this part looks like a good thing to move into a different file
 function Coord(x, y) {
 	this.x = x;
@@ -18,6 +24,45 @@ function Coord(x, y) {
 }
 Coord.prototype.toString = function() {
 	return "("+this.x+", "+this.y+")";
+}
+
+function vacate(element) {
+	while(element.firstChild) {
+		element.removeChild(element.firstChild);
+		// I was the firstChild
+		// just a punk in the street
+	}
+}
+var doClick; // click handler
+var open = function(cell) {
+	console.info(cell);
+	cell.open = true;
+	
+	if(cell.monster > 0) {
+		goBoom(cell);
+		return;
+	}
+	
+	var peril = danger(cell);
+	console.info("threat level is "+peril);
+	if(peril == 0) {
+		console.info("...so let's go!");
+		for(neighbor of neighbors(cell)) {
+			if(!neighbor.open) {
+				console.debug("now try "+cell.x+" "+cell.y);
+				open(neighbor);
+			}
+		}
+	}
+	render(cell);
+};
+var noOp = function(cell) {};
+
+function goBoom(cell) {
+	doClick = noOp; // no more clicking
+	cell.cellement.classList.add("boom");
+	document.getElementById("status").appendChild(loseBanner);
+	render(cell);
 }
 
 function init() {
@@ -30,6 +75,9 @@ function init() {
 	player.level = parseInt(document.gamesettings.playerlevel);
 	player.xp = 0;
 	
+	vacate(document.getElementById("status"));
+	doClick = open;
+	
 	var holder = document.getElementById("boardcontainer")
 	while(holder.firstChild) { // exists
 		holder.removeChild(holder.firstChild);
@@ -41,8 +89,6 @@ function init() {
 	for(var row = 0; row < boardwidth; row++) {
 		grid[row] = new Array(boardheight);
 	}
-	console.debug(grid.length);
-	console.debug(grid[0].length);
 	
 	cells = new Array();
 	
@@ -136,8 +182,7 @@ function render(cell) {
 	} else {
 		var toButton = document.createElement("button");
 		toButton.onclick = function(event) {
-			cell.open = true;
-			render(cell);
+			doClick(cell);
 		}
 		toButton.innerHTML = "";
 		cell.cellement.appendChild(toButton);
