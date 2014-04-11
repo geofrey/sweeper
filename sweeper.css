@@ -27,5 +27,6 @@
 }
 
 #status {
+	position: absolute;
 	font-size: 36pt;
 }
