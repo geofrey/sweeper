@@ -34,8 +34,22 @@ function vacate(element) {
 	}
 }
 var doClick; // click handler
-var open = function(cell) {
-	console.info(cell);
+var firstClick = function(cell) {
+	doClick = open;
+	
+	if(cell.monster > 0) {
+		var shunt;
+		// find a cell with no monster
+		do {
+			shunt = cells[Math.floor(Math.random() * cells.length)];
+		} while(shunt.monster > 0);
+		shunt.monster = cell.monster; // put ours there instead
+		cell.monster = 0;
+	}
+	
+	doClick(cell);
+}
+var open = function(cell) { // does it matter whether this is declared as a var or straight-up function?
 	cell.open = true;
 	
 	if(cell.monster > 0) {
@@ -44,12 +58,9 @@ var open = function(cell) {
 	}
 	
 	var peril = danger(cell);
-	console.info("threat level is "+peril);
 	if(peril == 0) {
-		console.info("...so let's go!");
 		for(neighbor of neighbors(cell)) {
 			if(!neighbor.open) {
-				console.debug("now try "+cell.x+" "+cell.y);
 				open(neighbor);
 			}
 		}
@@ -75,6 +86,10 @@ function init() {
 	boardwidth = parseInt(document.gamesettings.width.value);
 	boardheight = parseInt(document.gamesettings.height.value);
 	var monstercount = parseInt(document.gamesettings.monsters.value);
+	if(monstercount > boardheight * boardwidth - 1) {
+		alert("No, that's too many monsters.");
+		return;
+	}
 	var monsterlevel = parseInt(document.gamesettings.monsterlevel.value);
 	player = {};
 	player.hp = parseInt(document.gamesettings.health);
@@ -82,7 +97,7 @@ function init() {
 	player.xp = 0;
 	
 	vacate(document.getElementById("status"));
-	doClick = open;
+	doClick = firstClick;
 	
 	var holder = document.getElementById("boardcontainer")
 	while(holder.firstChild) { // exists
