@@ -1,10 +1,12 @@
 var boardwidth;
 var boardheight;
+var monstercount;
 var board;
 var player;
 
 var grid;
 var cells;
+var openedCells;
 
 var monsterstyle = [
 	null,
@@ -57,6 +59,14 @@ var open = function(cell) { // does it matter whether this is declared as a var 
 		return;
 	}
 	
+	openedCells += 1;
+	
+	if(openedCells == boardwidth * boardheight - monstercount) {
+		render(cell);
+		win();
+		return;
+	}
+	
 	var peril = danger(cell);
 	if(peril == 0) {
 		for(neighbor of neighbors(cell)) {
@@ -66,6 +76,7 @@ var open = function(cell) { // does it matter whether this is declared as a var 
 		}
 	}
 	render(cell);
+	
 };
 var noOp = function(cell) {};
 
@@ -82,10 +93,15 @@ function goBoom(cell) {
 	}
 }
 
+function win() {
+	doClick = noOp;
+	document.getElementById("status").appendChild(winBanner);
+}
+
 function init() {
 	boardwidth = parseInt(document.gamesettings.width.value);
 	boardheight = parseInt(document.gamesettings.height.value);
-	var monstercount = parseInt(document.gamesettings.monsters.value);
+	monstercount = parseInt(document.gamesettings.monsters.value);
 	if(monstercount > boardheight * boardwidth - 1) {
 		alert("No, that's too many monsters.");
 		return;
@@ -133,6 +149,8 @@ function init() {
 			toCreate -= 1;
 		}
 	}
+	
+	openedCells = 0;
 	
 	cells.forEach(render);
 }
