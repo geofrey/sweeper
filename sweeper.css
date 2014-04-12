@@ -1,0 +1,32 @@
+#boardcontainer td {
+	text-align: center;
+	height: 32px;
+	width: 32px;
+	margin: 1px;
+}
+
+#boardcontainer td * {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#boardcontainer button {
+	height: 100%;
+	width: 100%;
+}
+
+#boardcontainer .m1 {
+	background-image: url(img/monster1.png);
+}
+
+.boom {
+	background-color: red;
+}
+
+#status {
+	position: absolute;
+	font-size: 72pt;
+}

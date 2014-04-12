@@ -1,0 +1,45 @@
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+	<title>sweeper</title>
+	<link rel="stylesheet" href="sweeper.css"></style>
+	<script type="text/javascript" src="sweeper.js"></script>
+	
+	<script type="text/javascript">
+		function toggleSettings() {
+			var tainer = document.getElementById("gamesettings");
+			var show = document.getElementById("showsettings").checked;
+			tainer.style.display = show ? "inline" : "none";
+		}
+	</script>
+</head>
+
+<body onload="init()">
+	<div>
+		<input id="showsettings" type="checkbox" onchange="toggleSettings()">show settings</input>
+		<div id="gamesettings" style="display : none;">
+			<form name="gamesettings">
+				<input type="text" name="width" value="10">board width</input> <br/>
+				<input type="text" name="height" value="10">board height</input> <br/>
+				<input type="text" name="monsters" value="10">monster count</input> <br/>
+				<input type="text" name="monsterlevel" value="1">max. monster level</input> <br/>
+				<input type="text" name="health" value="10">initial health</input> <br/>
+				<input type="text" name="playerlevel" value="1">initial level</input> <br/>
+			</form>
+		</div>
+	</div>
+	<div id="controls">
+		<button onclick="cover()">cover</button>
+		<button onclick="uncover()">uncover</button>
+		<button onclick="init()">reset</button>
+		<button onclick="document.location.reload()">reload</button>
+	</div>
+	<div id="game">
+		<div id="status"></div>
+		<div id="boardcontainer"></div>
+	</div>
+</body>
+
+</html>
