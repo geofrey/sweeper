@@ -13,12 +13,6 @@ var monsterstyle = [
 	"m1"
 ];
 
-var loseBanner = document.createElement("p");
-loseBanner.innerHTML = "Game Over";
-
-var winBanner = document.createElement("p");
-winBanner.innerHTML = "Success!";
-
 // this part looks like a good thing to move into a different file
 function Coord(x, y) {
 	this.x = x;
@@ -83,7 +77,7 @@ var noOp = function(cell) {};
 function goBoom(cell) {
 	doClick = noOp; // no more clicking
 	cell.cellement.classList.add("boom");
-	document.getElementById("status").appendChild(loseBanner);
+	document.getElementById("lose").style.display = "inline";
 	render(cell);
 	for(remaining of cells) {
 		if(remaining.monster > 0) {
@@ -95,7 +89,7 @@ function goBoom(cell) {
 
 function win() {
 	doClick = noOp;
-	document.getElementById("status").appendChild(winBanner);
+	document.getElementById("win").style.display = "inline";
 }
 
 function init() {
@@ -112,13 +106,15 @@ function init() {
 	player.level = parseInt(document.gamesettings.playerlevel);
 	player.xp = 0;
 	
-	vacate(document.getElementById("status"));
+	//document.getElementById("status").children.forEach(function(element) { element.style.display = "none"; } );
+	// .children is not a list, what a bunch of stuff
+	for(banner of document.getElementById("status").children) {
+		banner.style.display = "none";
+	}
 	doClick = firstClick;
 	
 	var holder = document.getElementById("boardcontainer")
-	while(holder.firstChild) { // exists
-		holder.removeChild(holder.firstChild);
-	}
+	vacate(holder);
 	board = document.createElement("table");
 	holder.appendChild(board);
 	
