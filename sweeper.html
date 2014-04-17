@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 	<title>sweeper</title>
-	<link rel="stylesheet" href="sweeper.css"></style>
+	<link rel="stylesheet" href="sweeper.css"></link>
 	<script type="text/javascript" src="sweeper.js"></script>
 	
 	<script type="text/javascript">
@@ -17,19 +17,17 @@
 </head>
 
 <body onload="init()">
-	<div>
-		<input id="showsettings" type="checkbox" onchange="toggleSettings()">show settings</input>
+	<form name="gamesettings" action="">
+		<p>show settings <input id="showsettings" type="checkbox" onchange="toggleSettings()" checked="checked" /></p>
 		<div id="gamesettings" style="display : none;">
-			<form name="gamesettings">
-				<input type="text" name="width" value="10">board width</input> <br/>
-				<input type="text" name="height" value="10">board height</input> <br/>
-				<input type="text" name="monsters" value="10">monster count</input> <br/>
-				<input type="text" name="monsterlevel" value="1">max. monster level</input> <br/>
-				<input type="text" name="health" value="10">initial health</input> <br/>
-				<input type="text" name="playerlevel" value="1">initial level</input> <br/>
-			</form>
+			board width <input type="text" name="width" value="10" /><br/>
+			board height <input type="text" name="height" value="10" /><br/>
+			monster count <input type="text" name="monsters" value="10" /><br/>
+			max. monster level <input type="text" name="monsterlevel" value="1" /><br/>
+			initial health <input type="text" name="health" value="10" /><br/>
+			initial level <input type="text" name="playerlevel" value="1" /><br/>
 		</div>
-	</div>
+	</form>
 	<div id="controls">
 		<button onclick="cover()">cover</button>
 		<button onclick="uncover()">uncover</button>
