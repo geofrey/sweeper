@@ -109,6 +109,9 @@ function init() {
 	
 	doClick = firstClick;
 	
+	document.getElementById("win").style.display = "none";
+	document.getElementById("lose").style.display = "none"; // this has got to go
+
 	var holder = document.getElementById("boardcontainer")
 	vacate(holder);
 	board = document.createElement("table");
