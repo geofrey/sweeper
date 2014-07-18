@@ -63,9 +63,10 @@ var open = function(cell) { // does it matter whether this is declared as a var 
 	
 	var peril = danger(cell);
 	if(peril == 0) {
-		for(neighbor of neighbors(cell)) {
-			if(!neighbor.open) {
-				open(neighbor);
+		var nextdoor = neighbors(cell)
+		for(neighbor in nextdoor) {
+			if(!nextdoor[neighbor].open) {
+				open(nextdoor[neighbor]);
 			}
 		}
 	}
@@ -76,13 +77,13 @@ var noOp = function(cell) {};
 
 function goBoom(cell) {
 	doClick = noOp; // no more clicking
-	cell.cellement.classList.add("boom");
+	cell.cellement.className += " boom"; // hey, shouldn't that class name be a constant or something?
 	document.getElementById("lose").style.display = "inline";
 	render(cell);
-	for(remaining of cells) {
-		if(remaining.monster > 0) {
-			remaining.open = true;
-			render(remaining);
+	for(remaining in cells) {
+		if(cells[remaining].monster > 0) {
+			cells[remaining].open = true;
+			render(cells[remaining]);
 		}
 	}
 }
@@ -106,11 +107,6 @@ function init() {
 	player.level = parseInt(document.gamesettings.playerlevel);
 	player.xp = 0;
 	
-	//document.getElementById("status").children.forEach(function(element) { element.style.display = "none"; } );
-	// .children is not a list, what a bunch of stuff
-	for(banner of document.getElementById("status").children) {
-		banner.style.display = "none";
-	}
 	doClick = firstClick;
 	
 	var holder = document.getElementById("boardcontainer")
@@ -129,7 +125,7 @@ function init() {
 		var tr = board.insertRow();
 		for(var col = 0; col < boardwidth; col++) {
 			var box = tr.insertCell();
-			box.class = "cell";
+			box.className = "cell";
 			// maybe use a Coord here, maybe not. Inheritance???
 			var cell = {"monster" : 0, "open" : false, "cellement" : box, "x" : col, "y" : row};
 			grid[col][row] = cell; // column-major for game logic
@@ -148,7 +144,10 @@ function init() {
 	
 	openedCells = 0;
 	
-	cells.forEach(render);
+	//cells.forEach(render);
+	for(cell in cells) {
+		render(cells[cell]);
+	}
 }
 
 function neighbors(cell) {
@@ -166,10 +165,10 @@ function neighbors(cell) {
 	vertical.push(j);
 	if(j < (boardheight-1)) vertical.push(j+1);
 	
-	for(var x of horizontal) {
-		for(var y of vertical) {
-			if(!(x == i && y == j)) {
-				var coord = new Coord(x, y);
+	for(var x in horizontal) {
+		for(var y in vertical) {
+			if(!(horizontal[x] == i && vertical[y] == j)) {
+				var coord = new Coord(horizontal[x], vertical[y]);
 				out.push(grid[coord.x][coord.y]);
 			}
 		}
@@ -182,22 +181,25 @@ function add(l, r) {
 }
 
 function danger(cell) {
-	return neighbors(cell)
-		.map(function(c) { return c.monster; })
-		.reduce(function(l, r) { return l + r; });
+	var danger = 0;
+	var ns = neighbors(cell);
+	for(n in ns) {
+		danger += ns[n].monster
+	}
+	return danger;
 }
 
 function cover() {
-	for(cell of cells) {
-		cell.open = false;
-		render(cell);
+	for(cell in cells) {
+		cells[cell].open = false;
+		render(cells[cell]);
 	}
 }
 
 function uncover() {
-	for(cell of cells) {
-		cell.open = true;
-		render(cell);
+	for(cell in cells) {
+		cells[cell].open = true;
+		render(cells[cell]);
 	}
 }
 
@@ -212,7 +214,7 @@ function render(cell) {
 			toNumber.innerHTML = theDanger > 0 ? theDanger : "";
 			cell.cellement.appendChild(toNumber);
 		} else {
-			cell.cellement.classList.add(monsterstyle[cell.monster]);
+			cell.cellement.className += " "+monsterstyle[cell.monster];
 		}
 	} else {
 		var toButton = document.createElement("button");
