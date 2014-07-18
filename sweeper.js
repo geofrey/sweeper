@@ -83,7 +83,7 @@ var noOp = function(cell) {};
 
 function goBoom(cell) {
 	doClick = noOp; // no more clicking
-	cell.cellement.classList.add("boom");
+	cell.cellement.className += " boom"; // hey, shouldn't that class name be a constant or something?
 	document.getElementById("status").appendChild(loseBanner);
 	render(cell);
 	for(remaining in cells) {
@@ -190,9 +190,12 @@ function add(l, r) {
 }
 
 function danger(cell) {
-	return neighbors(cell)
-		.map(function(c) { return c.monster; })
-		.reduce(function(l, r) { return l + r; });
+	var danger = 0;
+	var ns = neighbors(cell);
+	for(n in ns) {
+		danger += ns[n].monster
+	}
+	return danger;
 }
 
 function cover() {
@@ -220,8 +223,7 @@ function render(cell) {
 			toNumber.innerHTML = theDanger > 0 ? theDanger : "";
 			cell.cellement.appendChild(toNumber);
 		} else {
-			//cell.cellement.classList.add(monsterstyle[cell.monster]);
-			cell.cellement.className = monsterstyle[cell.monster]; // I am unconvinced.
+			cell.cellement.className += " "+monsterstyle[cell.monster];
 		}
 	} else {
 		var toButton = document.createElement("button");
