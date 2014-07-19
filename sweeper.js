@@ -130,7 +130,7 @@ function init() {
 			var box = tr.insertCell();
 			box.className = "cell";
 			// maybe use a Coord here, maybe not. Inheritance???
-			var cell = {"monster" : 0, "open" : false, "cellement" : box, "x" : col, "y" : row};
+			var cell = {"monster" : 0, "open" : false, "flag" : false, "cellement" : box, "x" : col, "y" : row};
 			grid[col][row] = cell; // column-major for game logic
 			cells.push(cell);
 		}
@@ -223,8 +223,17 @@ function render(cell) {
 		var toButton = document.createElement("button");
 		toButton.onclick = function(event) {
 			doClick(cell);
-		}
-		toButton.innerHTML = "";
+		};
+		toButton.onmousemove = function(event) {
+			toButton.focus();
+		};
+		toButton.onkeypress = function(event) {
+			if(event.charCode === "f".charCodeAt(0)) {
+				cell.flag = !cell.flag;
+				toButton.innerHTML = cell.flag ? "!" : "";
+			}
+		};
+		toButton.innerHTML = cell.flag ? "!" : "";
 		cell.cellement.appendChild(toButton);
 	}
 }
