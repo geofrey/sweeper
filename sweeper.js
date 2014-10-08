@@ -192,20 +192,6 @@ function danger(cell) {
 	return danger;
 }
 
-function cover() {
-	for(cell in cells) {
-		cells[cell].open = false;
-		render(cells[cell]);
-	}
-}
-
-function uncover() {
-	for(cell in cells) {
-		cells[cell].open = true;
-		render(cells[cell]);
-	}
-}
-
 function render(cell) {
 	while(cell.cellement.firstChild) {
 		cell.cellement.removeChild(cell.cellement.firstChild);
