@@ -57,4 +57,10 @@
 
 #status .statusitem {
 	display: inline-block;
+	border: 1px solid black;
+	margin: 5px;
+}
+
+.statusitem .statusvalue {
+	background-color: lightgreen;
 }
