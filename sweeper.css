@@ -21,12 +21,40 @@
 #boardcontainer .m1 {
 	background-image: url(img/monster1.png);
 }
+#boardcontainer .m2 {
+	background-image: url(img/monster2.png);
+}
+#boardcontainer .m3 {
+	background-image: url(img/monster3.png);
+}
+#boardcontainer .m4 {
+	background-image: url(img/monster4.png);
+}
+#boardcontainer .m5 {
+	background-image: url(img/monster5.png);
+}
+#boardcontainer .m6 {
+	background-image: url(img/monster6.png);
+}
+#boardcontainer .m7 {
+	background-image: url(img/monster7.png);
+}
+#boardcontainer .m8 {
+	background-image: url(img/monster8.png);
+}
+#boardcontainer .m9 {
+	background-image: url(img/monster9.png);
+}
 
 .boom {
 	background-color: red;
 }
 
-#status {
+#endgame {
 	position: absolute;
 	font-size: 72pt;
+}
+
+#status .statusitem {
+	display: inline-block;
 }

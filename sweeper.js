@@ -10,7 +10,15 @@ var openedCells;
 
 var monsterstyle = [
 	null,
-	"m1"
+	"m1",
+	"m2",
+	"m3",
+	"m4",
+	"m5",
+	"m6",
+	"m7",
+	"m8",
+	"m9"
 ];
 
 // this part looks like a good thing to move into a different file
@@ -45,17 +53,13 @@ var firstClick = function(cell) {
 	
 	doClick(cell);
 }
-var open = function(cell) { // does it matter whether this is declared as a var or straight-up function?
+var open = function(cell) {
 	cell.open = true;
-	
-	if(cell.monster > 0) {
-		goBoom(cell);
-		return;
-	}
+	if(cell.monster) fight(cell);
 	
 	openedCells += 1;
 	
-	if(openedCells == boardwidth * boardheight - monstercount) {
+	if(openedCells == boardwidth * boardheight) {
 		render(cell);
 		win();
 		return;
@@ -74,6 +78,31 @@ var open = function(cell) { // does it matter whether this is declared as a var 
 	
 };
 var noOp = function(cell) {};
+
+function fight(cell) {
+	var monsterhp = cell.monster;
+	while(true) {
+		// attack
+		monsterhp -= player.level;
+		if(monsterhp <= 0) {
+			player.xp += cell.monster;
+			if(player.xp >= player.nextlevel) {
+				player.level += 1;
+				player.nextlevel = parseInt(player.nextlevel * player.levelcurve);
+			}
+			break;
+		}
+		
+		// counterattack
+		player.hp -= cell.monster;
+		if(player.hp <= 0) {
+			goBoom(cell);
+			break;
+		}
+	}
+	displayStatus();
+	render(cell);
+}
 
 function goBoom(cell) {
 	doClick = noOp; // no more clicking
@@ -102,10 +131,13 @@ function init() {
 		return;
 	}
 	var monsterlevel = parseInt(document.gamesettings.monsterlevel.value);
+	
 	player = {};
-	player.hp = parseInt(document.gamesettings.health);
-	player.level = parseInt(document.gamesettings.playerlevel);
+	player.hp = parseInt(document.gamesettings.health.value);
+	player.level = 1;
 	player.xp = 0;
+	player.nextlevel = parseInt(document.gamesettings.firstlevel.value);
+	player.levelcurve = parseFloat(document.gamesettings.levelcurve.value);
 	
 	doClick = firstClick;
 	
@@ -140,14 +172,15 @@ function init() {
 	while(toCreate > 0) {
 		var r = Math.floor(Math.random() * cells.length);
 		if(cells[r].monster == 0) {
-			cells[r].monster = 1;
+			var level = Math.floor(Math.random() * monsterlevel) + 1;
+			cells[r].monster = level;
 			toCreate -= 1;
 		}
 	}
 	
 	openedCells = 0;
 	
-	//cells.forEach(render);
+	displayStatus();
 	for(cell in cells) {
 		render(cells[cell]);
 	}
@@ -235,5 +268,20 @@ function render(cell) {
 		};
 		toButton.innerHTML = cell.flag ? "!" : "";
 		cell.cellement.appendChild(toButton);
+	}
+}
+
+function displayStatus() {
+	var labels = [
+		['playerhealth', player.hp],
+		['playerlevel', player.level],
+		['playerxp', player.xp],
+		['nextlevel', player.nextlevel]
+	];
+	for(l in labels) {
+		document
+			.getElementById(labels[l][0])
+			.getElementsByClassName('statusvalue')[0]
+			.innerHTML = labels[l][1];
 	}
 }
