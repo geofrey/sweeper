@@ -23,9 +23,10 @@
 			board width <input type="text" name="width" value="10" /><br/>
 			board height <input type="text" name="height" value="10" /><br/>
 			monster count <input type="text" name="monsters" value="10" /><br/>
-			max. monster level <input type="text" name="monsterlevel" value="1" /><br/>
+			max. monster level <input type="text" name="monsterlevel" value="5" /><br/>
 			initial health <input type="text" name="health" value="10" /><br/>
-			initial level <input type="text" name="playerlevel" value="1" /><br/>
+			first level-up <input type="text" name="firstlevel" value="3" /><br/>
+			level curve <input type="text" name="levelcurve" value="1.5" /><br/>
 		</div>
 	</form>
 	<div id="controls">
@@ -33,9 +34,23 @@
 		<button onclick="document.location.reload()">reload</button>
 	</div>
 	<div id="game">
-		<div id="status">
+		<div id="endgame">
 			<p id="win" style="display: none;">Success!</p>
 			<p id="lose" style="display: none;">Game Over</p>
+		</div>
+		<div id="status">
+			<p id="playerhealth" class="statusitem">
+				Health <span class="statusvalue"/>
+			</p>
+			<p id="playerlevel" class="statusitem">
+				Level <span class="statusvalue"/>
+			</p>
+			<p id="playerxp" class="statusitem">
+				XP <span class="statusvalue"/>
+			</p>
+			<p id="nextlevel" class="statusitem">
+				Level up <span class="statusvalue"/>
+			</p>
 		</div>
 		<div id="boardcontainer"></div>
 	</div>
