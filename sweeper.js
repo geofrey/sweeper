@@ -125,12 +125,18 @@ function win() {
 function init() {
 	boardwidth = parseInt(document.gamesettings.width.value);
 	boardheight = parseInt(document.gamesettings.height.value);
+	
 	monstercount = parseInt(document.gamesettings.monsters.value);
 	if(monstercount > boardheight * boardwidth - 1) {
 		alert("No, that's too many monsters.");
 		return;
 	}
+	
 	var monsterlevel = parseInt(document.gamesettings.monsterlevel.value);
+	if(monsterlevel > 9) {
+		alert("Don't know how to draw monsters over level 9.");
+		return;
+	}
 	
 	player = {};
 	player.hp = parseInt(document.gamesettings.health.value);
