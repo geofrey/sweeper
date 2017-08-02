@@ -16,5 +16,4 @@ Obvious bugs
 
 * Sometimes the game is not winnable. Still pondering how to do the monster-level distribution.
 * Losing the last fight on the board shows the 'win' and 'lose' messages at the same time.
-* I have only made images for mine levels 1, 2, and 3. The rest are scribbles. My kids are helping me decide what to draw.
 * Yes-or-no flags are still active, (carried over from classic mode). Not very helpful.
