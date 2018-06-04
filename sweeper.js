@@ -54,6 +54,11 @@ var firstClick = function(cell) {
   doClick(cell);
 }
 var open = function(cell) {
+  if(cell.flag > player.level) {
+    // nope
+    return;
+  }
+  
   cell.open = true;
   if(cell.monster) fight(cell);
   
