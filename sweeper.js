@@ -54,6 +54,11 @@ var firstClick = function(cell) {
   doClick(cell);
 }
 var open = function(cell) {
+  if(cell.flag > player.level) {
+    // nope
+    return;
+  }
+  
   cell.open = true;
   if(cell.monster) fight(cell);
   
@@ -168,7 +173,7 @@ function init() {
       var box = tr.insertCell();
       box.className = "cell";
       // maybe use a Coord here, maybe not. Inheritance???
-      var cell = {"monster" : 0, "open" : false, "flag" : false, "cellement" : box, "x" : col, "y" : row};
+      var cell = {"monster" : 0, "open" : false, "flag" : 0, "cellement" : box, "x" : col, "y" : row};
       grid[col][row] = cell; // column-major for game logic
       cells.push(cell);
     }
@@ -245,6 +250,14 @@ function uncover() {
   }
 }
 
+function numberFromCharCode(code) {
+  if(code >= 48 && code <= 57) {
+    return code - 48;
+  } else {
+    return null;
+  }
+}
+
 function render(cell) {
   while(cell.cellement.firstChild) {
     cell.cellement.removeChild(cell.cellement.firstChild);
@@ -267,12 +280,13 @@ function render(cell) {
       toButton.focus();
     };
     toButton.onkeypress = function(event) {
-      if(event.charCode === "f".charCodeAt(0)) {
-        cell.flag = !cell.flag;
-        toButton.innerHTML = cell.flag ? "!" : "";
+      var newFlag = numberFromCharCode(event.charCode);
+      if(newFlag != null) {
+        cell.flag = newFlag;
       }
+      toButton.innerHTML = cell.flag > 0 ? cell.flag : "";
     };
-    toButton.innerHTML = cell.flag ? "!" : "";
+    toButton.innerHTML = cell.flag > 0 ? cell.flag : "";
     cell.cellement.appendChild(toButton);
   }
 }
