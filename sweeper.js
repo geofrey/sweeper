@@ -263,14 +263,13 @@ function render(cell) {
     cell.cellement.removeChild(cell.cellement.firstChild);
   }
   if(cell.open) {
-    if(cell.monster == 0) {
-      var toNumber = document.createElement("span");
-      var theDanger = danger(cell);
-      toNumber.innerHTML = theDanger > 0 ? theDanger : "";
-      cell.cellement.appendChild(toNumber);
-    } else {
+    if(cell.monster != 0) {
       cell.cellement.className += " "+monsterstyle[cell.monster];
     }
+    var toNumber = document.createElement("span");
+    var theDanger = danger(cell);
+    toNumber.innerHTML = theDanger > 0 ? theDanger : "";
+    cell.cellement.appendChild(toNumber);
   } else {
     var toButton = document.createElement("button");
     toButton.onclick = function(event) {
